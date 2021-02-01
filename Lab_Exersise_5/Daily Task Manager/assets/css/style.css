@@ -2,5 +2,5 @@ i {
     color: red;
 }
 .hiddenEle{
-    display: block;
+    display: none;
 }

@@ -33,7 +33,7 @@ function populateTaskList(key) {
 //#region Sort
 sortBtn.addEventListener('click',sortTasks);
 function sortTasks(e){
-    var doSort = "A";
+    var doSort;
     if( sortBtn.firstElementChild.classList.contains('fa-arrow-up')){
         sortBtn.firstElementChild.classList.remove('fa-arrow-up');
         sortBtn.firstElementChild.classList.add('fa-arrow-down');
@@ -44,23 +44,32 @@ function sortTasks(e){
         e.target.firstElementChild.classList.add('fa-arrow-up');
         doSort = "D";
     }
-    var sort_by_date = function(a, b) {
-        return Date.parse(a.querySelector(".hiddenEle").innerHTML) > Date.parse(b.querySelector(".hiddenEle")).innerHTML;
-    }
-    var lists  = taskList.querySelectorAll(".collection-item");
-    console.log(lists);
-    const li = Array.from(lists);
-    li.reverse();
-    if(doSort==="A"){
-        li.sort(sort_by_date);
-    }
-    else{
-        li.sort(sort_by_date);
-        li.reverse()
-    }
-    console.log(li);
-    lists = li;
+ 
+    sortList(taskList,doSort);
 }
+function sortList(list,t) {
+    var i, switching, b, shouldSwitch;
+    switching = true;
+    while (switching) {
+      switching = false;
+      b = list.querySelectorAll(".collection-item");
+      for (i = 0; i < (b.length - 1); i++) {
+        shouldSwitch = false;
+        if (t==="A" && ((b[i].querySelector(".hiddenEle").innerHTML) < (b[i + 1].querySelector(".hiddenEle")).innerHTML)) {
+          shouldSwitch = true;
+          break;
+        }
+        else if (t==="D" && ((b[i].querySelector(".hiddenEle").innerHTML) > (b[i + 1].querySelector(".hiddenEle")).innerHTML)) {
+            shouldSwitch = true;
+            break;
+          }
+      }
+      if (shouldSwitch) {
+        b[i].parentNode.insertBefore(b[i + 1], b[i]);
+        switching = true;
+      }
+    }
+  }
 //#endregion
 
 
